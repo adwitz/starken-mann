@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'ionic.utils', 'starken.controllers', 'starken.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -54,6 +54,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
         'tab-friends': {
           templateUrl: 'templates/tab-friends.html',
           controller: 'FriendsCtrl'
+        }
+      }
+    })
+
+    .state('tab.workouts', {
+      url: '/workouts',
+      views: {
+        'tab-workouts': {
+          templateUrl: 'templates/tab-workouts.html',
+          controller: 'WorkoutCtrl'
         }
       }
     })
