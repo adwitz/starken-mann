@@ -1,0 +1,16 @@
+<ion-view title="Workout #{{workout.workout}}">
+  <ion-content has-header="true" padding="true">
+    <ion-list>
+      <ion-item ng-repeat="set in workout.sets" class="item-icon-right" type="item-text-wrap" on-tap="markRepComplete(set, workout.sets, $index)">
+        <span ng-switch="set.type">
+          <span ng-switch-when="normal">
+            <span>Set {{$index + 1}}: {{set.reps}} reps at {{set.weight}} lbs</span>
+          </span>
+          <span ng-switch-when="failure">Set {{$index + 1}}: lift {{set.weight}} lbs until failure</span>
+          <span ng-switch-when="negative">Set {{$index + 1}}: {{set.reps}} negative rep</span>
+        </span>
+        <i class="icon ion-checkmark-circled slide-in-left" ng-class="{'green': set.completed}"></i>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

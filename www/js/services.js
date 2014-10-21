@@ -1,4 +1,4 @@
-angular.module('starken.services', [])
+angular.module('bench.services', [])
 
 /**
  * A simple example service that returns some data.

@@ -1,16 +1,4 @@
 /* Empty. Add your own CSS if you like */
-.float-left {
-  float: left;
-}
-
-.float-right {
-  float: right;
-}
-
-.workout-nav-style {
-  font-size: 200%;
-}
-
-.workout-nav-pos {
-  margin: 10px;
+.green {
+  color: green;
 }

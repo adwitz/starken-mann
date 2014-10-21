@@ -1,4 +1,4 @@
-angular.module('starken.services')
+angular.module('bench.services')
 
 /**
  * A simple example service that returns some data.
@@ -37,6 +37,15 @@ angular.module('starken.services')
     get: function(id) {
       // Simple index lookup
       return workouts[id];
+    },
+    setRepValue: function(workout, set, key, value){
+      workout.sets[set][key] = value;
+    },
+    isFailureSet: function(sets){
+      if (sets[sets.length-1].type === 'failure'){
+        return true;
+      }
+      return false;
     }
   }
 });
