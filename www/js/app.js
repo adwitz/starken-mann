@@ -48,6 +48,26 @@ angular.module('starter', ['ionic', 'ionic.utils', 'starken.controllers', 'stark
       }
     })
 
+    .state('tab.workouts', {
+      url: '/workouts',
+      views: {
+        'tab-workouts': {
+          templateUrl: 'templates/tab-workouts.html',
+          controller: 'WorkoutCtrl'
+        }
+      }
+    })
+
+    .state('tab.workout-detail', {
+      url: '/workout/:workoutId',
+      views: {
+        'tab-workouts': {
+          templateUrl: 'templates/workout-detail.html',
+          controller: 'WorkoutDetailCtrl'
+        }
+      }
+    })
+
     .state('tab.friends', {
       url: '/friends',
       views: {
@@ -58,15 +78,6 @@ angular.module('starter', ['ionic', 'ionic.utils', 'starken.controllers', 'stark
       }
     })
 
-    .state('tab.workouts', {
-      url: '/workouts',
-      views: {
-        'tab-workouts': {
-          templateUrl: 'templates/tab-workouts.html',
-          controller: 'WorkoutCtrl'
-        }
-      }
-    })
     .state('tab.friend-detail', {
       url: '/friend/:friendId',
       views: {

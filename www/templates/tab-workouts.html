@@ -1,14 +1,8 @@
 <ion-view title="Workouts">
   <ion-content>
-    <div class="">
-      <a class="float-left ion ion-chevron-left workout-nav-style workout-nav-pos" ng-disabled="disableWorkoutNav(workout.id)" ng-click="prevWorkout(workout.id)"></a>
-
-      <a class="float-right ion ion-chevron-right workout-nav-style workout-nav-pos" ng-disabled="disableWorkoutNav(workout.id)" ng-click="nextWorkout(workout.id)"></a>
-    </div>
-
     <ion-list>
-      <ion-item ng-repeat="set in workout.sets" type="item-text-wrap">
-        {{set.reps}} at {{set.weight}} lbs
+      <ion-item ng-repeat="workout in workouts" type="item-text-wrap" href="#/tab/workout/{{workout.id}}">
+        Workout #{{workout.workout}}
       </ion-item>
     </ion-list>
   </ion-content>

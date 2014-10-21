@@ -8,30 +8,14 @@ angular.module('starken.controllers', [])
 })
 
 .controller('WorkoutCtrl', function($scope, Workouts) {
-  var workouts = Workouts.all();
+  $scope.workouts = Workouts.all();
+})
 
-  $scope.workout = workouts[0];
-  $scope.sets = $scope.workout.set;
-  console.log($scope.workout);
+.controller('WorkoutDetailCtrl', function($scope, $stateParams, Workouts) {
+  $scope.workout = Workouts.get($stateParams.workoutId);
 
-  $scope.nextWorkout = function(id){
-    $scope.workout = workouts[id+1];
-    $scope.sets = $scope.workout.set;
-    console.log($scope.workout);
-  };
-
-  $scope.prevWorkout = function(id){
-    $scope.workout = workouts[id-1];
-    $scope.sets = $scope.workout.set;
-    console.log($scope.workout);
-  };
-
-  $scope.disableWorkoutNav = function(id){
-    if (id - 1 < 0){
-      return true;
-    } else if (id + 1 >= workouts.length){
-      return true;
-    }
+  $scope.markRepComplete = function($event){
+    debugger;
   };
 })
 
