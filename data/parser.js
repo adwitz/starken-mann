@@ -23,8 +23,10 @@ var setType = function(rep){
 
 var processReps = function(reps){
   var processed = reps.map(function(item){
-    if (item === 'Neg' || item === 'F'){
+    if (item === 'Neg'){
       return 1;
+    } else if (item === 'F'){
+      return null;
     } else {
       return Number(item);
     }
@@ -39,12 +41,12 @@ var populateSets = function(startIndex, regimen, reps){
   var type;
   
   for (var i=0; i<3; i++){
-    for (var j=0; j<sets[startIndex + i]; j++){
+    for (var j=0; j<sets[startIndex + i - 1]; j++){
 
-      type = setType(reps.raw[startIndex + i]);
+      type = setType(reps.raw[startIndex + i - 1]);
 
       workout.push({
-        reps: reps.processed[startIndex + i],
+        reps: reps.processed[startIndex + i - 1],
         weight: regimen[startIndex + i],
         completed: false,
         type: type
@@ -110,7 +112,7 @@ fs.readFile('data/bench-data.csv', 'utf-8', function(err, data){
     
   });
 
-  fs.writeFile("data/processed.txt", JSON.stringify(allWorkoutData), function(err){
+  fs.writeFile("data/processed.json", JSON.stringify(allWorkoutData, null, 2), function(err){
     if (err){
       console.log(err);
     } else {
