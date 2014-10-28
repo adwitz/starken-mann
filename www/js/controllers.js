@@ -33,12 +33,14 @@ angular.module('bench.controllers', [])
   };
 })
 
-.controller('WorkoutsCtrl', function($scope, Workouts) {
+.controller('WorkoutsCtrl', function($scope, Workouts, Requests) {
+  Requests.getWorkout(100);
   $scope.workouts = Workouts.all();
 })
 
 .controller('WorkoutCtrl', function($scope, $stateParams, Workouts, $ionicModal) {
   /*TODO add last completed function*/
+  
   $scope.lastCompleted = -1;
   $scope.workout = Workouts.get($stateParams.workoutId);
   console.log($scope.workout);

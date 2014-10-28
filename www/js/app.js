@@ -4,9 +4,9 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.services'])
+angular.module('bench', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.services'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $localstorage, $location) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -16,6 +16,10 @@ angular.module('starter', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.s
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
+    }
+    if (!$localstorage.get('max', null)){
+      console.log('hereeeeee');
+      $location.path('/playlists');
     }
   });
 })

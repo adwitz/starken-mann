@@ -112,11 +112,11 @@ fs.readFile('data/bench-data.csv', 'utf-8', function(err, data){
     
   });
 
-  fs.writeFile("data/processed.json", JSON.stringify(allWorkoutData, null, 2), function(err){
+  fs.writeFile("data/processed.json", JSON.stringify(allWorkoutData), function(err){
     if (err){
       console.log(err);
     } else {
-      console.log('wrote data to processed.txt');
+      console.log('wrote data to processed.json');
     }
   });
 
