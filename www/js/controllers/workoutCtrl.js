@@ -5,15 +5,16 @@ angular.module('bench.controllers')
   
   $scope.lastCompleted = -1;
   $scope.workout = Workouts.get($stateParams.workoutId);
-  console.log($scope.workout);
-  console.log($scope.sets);
-  $ionicModal.fromTemplateUrl('templates/failure-modal.html', {
+  $scope.isFailureSet = false;
+  $scope.failureReps = null;
+  
+  $ionicModal.fromTemplateUrl('templates/workoutCompleteModal.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
     $scope.modal = modal;
   });
-  $scope.openModal = function() {
+  $scope.openWorkoutCompleteModal = function() {
     $scope.modal.show();
   };
   $scope.closeModal = function() {
@@ -32,11 +33,10 @@ angular.module('bench.controllers')
     // Execute action
   });
 
-  // $scope.$watch(function(){});
-
   $scope.$watch('lastCompleted', function(){
-    if($scope.lastCompleted === $scope.workout.sets.length - 1 && Workouts.isFailureSet($scope.workout.sets)){
-      $scope.openModal();
+    if($scope.lastCompleted === $scope.workout.sets.length - 1){
+      $scope.isFailureSet = Workouts.isFailureSet($scope.workout.sets);
+      $scope.openWorkoutCompleteModal();
     }
   });
 
@@ -52,7 +52,9 @@ angular.module('bench.controllers')
       set.completed = false;
     }
 
-    // getFailureReps(set);
+    $scope.evaluateFailureReps = function(reps){
+      $scope.changeWeight = Workouts.evaluateFailureReps(reps);
+    };
 
   };
 

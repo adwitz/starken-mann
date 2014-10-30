@@ -1,0 +1,13 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Workout Complete!</h1>
+  </ion-header-bar>
+  <ion-content>
+    Nice work!
+    <div ng-show="isFailureSet">
+      How many reps did you do at the failure weight?
+      <input ng-model="failureReps" />
+      <button value="Submit" ng-click="evaluateFailureReps(failureReps)"></button>
+    </div>
+  </ion-content>
+</ion-modal-view>

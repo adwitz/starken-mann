@@ -29,7 +29,20 @@ angular.module('bench.services')
         return true;
       }
       return false;
+    },
+    evaluateFailureReps: function(reps){
+      var response = {};
+      if (reps >= 5){
+        response.change = 1;
+        response.weght = '';
+      } else if (reps < 3){
+        response.change = -1;
+        response.weight = '';
+      } else {
+        response.change = 0;
+        response.weight = '';
+      }
     }
-  }
+  };
 });
 
