@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('bench', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.services'])
 
-.run(function($ionicPlatform, $localstorage, $location) {
+.run(function($ionicPlatform, $location, $state, $localstorage) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,8 +19,9 @@ angular.module('bench', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.ser
     }
     if (!$localstorage.get('max', null)){
       console.log('hereeeeee');
-      $location.path('/playlists');
+      $state.go('app.intro');
     }
+
   });
 })
 
@@ -34,11 +35,22 @@ angular.module('bench', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.ser
       controller: 'AppCtrl'
     })
 
-    .state('app.search', {
-      url: "/search",
+    .state('app.intro', {
+      url: "/intro",
       views: {
         'menuContent' :{
-          templateUrl: "templates/search.html"
+          templateUrl: "templates/intro.html",
+          controller: 'IntroCtrl'
+        }
+      }
+    })
+
+    .state('app.oneRM', {
+      url: "/intro/oneRM",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/oneRM.html",
+          controller: 'IntroCtrl'
         }
       }
     })
