@@ -50,7 +50,7 @@ var populateSets = function(startIndex, regimen, reps){
         weight: regimen[startIndex + i],
         completed: false,
         type: type
-      }); //individual workout goes here      
+      });   
     }
 
   }
@@ -69,14 +69,11 @@ createRepObj = function(repsRow){
   };
 };
 
-fs.readFile('data/bench-data.csv', 'utf-8', function(err, data){
-  if (err) throw err;
-  
-  var re = new RegExp('\r', 'g');
-  var result = [];
-  var rows = data.trim().replace(re, '').split('\n');
+var processData = function(data){
 
-  var processed = {};
+  var re = new RegExp('\r', 'g');
+  var result = [], processed, reps, oneRMs, oneRM, sets, allWorkoutData = {};
+  var rows = data.trim().replace(re, '').split('\n');
 
   processed = rows.map(function(row, index, array){
 
@@ -90,13 +87,9 @@ fs.readFile('data/bench-data.csv', 'utf-8', function(err, data){
 
   });
 
-  var reps = createRepObj(processed[2].slice(1));
+  reps = createRepObj(processed[2].slice(1));
 
-  var oneRMs = processed.slice(4);
-
-  var oneRM, sets;
-  
-  var allWorkoutData = {};
+  oneRMs = processed.slice(4);
 
   oneRMs.forEach(function(regimen, oneRMIndex, body){
     oneRM = regimen[0];
@@ -112,7 +105,16 @@ fs.readFile('data/bench-data.csv', 'utf-8', function(err, data){
     
   });
 
-  fs.writeFile("data/processed.json", JSON.stringify(allWorkoutData), function(err){
+  return allWorkoutData;
+
+};
+
+fs.readFile('server/data/bench-data.csv', 'utf-8', function(err, data){
+  if (err) throw err;
+  
+  var processedData = processData(data);
+
+  fs.writeFile('server/data/processed.json', JSON.stringify(processedData), function(err){
     if (err){
       console.log(err);
     } else {
