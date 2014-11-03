@@ -34,7 +34,7 @@ angular.module('bench.services')
       var response = {};
       if (reps >= 5){
         response.change = 1;
-        response.weght = '';
+        response.weight = '';
       } else if (reps < 3){
         response.change = -1;
         response.weight = '';
@@ -42,6 +42,7 @@ angular.module('bench.services')
         response.change = 0;
         response.weight = '';
       }
+      return response;
     }
   };
 });

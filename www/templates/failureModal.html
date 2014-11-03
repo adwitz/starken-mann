@@ -1,0 +1,23 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title"></h1>
+  </ion-header-bar>
+  <ion-content>
+    Nice work!
+    <div>
+      <label for="failureReps">
+        <span>How many reps did you do at the failure weight?</span>
+        <input id="failureReps" ng-model="failureReps" />
+      </label>
+      <button ng-click="evaluateFailureReps(failureReps)">Submit</button>
+    </div>
+    <div>
+      <div ng-show="{{score.change === 1}}">
+        Great! That might have been a bit too easy--you did five or more reps.  Would you like to increase your base 1RM to {{score.weight}} for your next workout?
+      </div>
+      <div ng-show="{{score.change === -1}}">
+        It looks like that may be been a challenge.  A lighter weight may help you progress more effectively.  Would you like to decrease your 1RM to {{score.weight}} for your next workout?
+      </div>
+    </div>
+  </ion-content>
+</ion-modal-view>

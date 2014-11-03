@@ -7,6 +7,22 @@ angular.module('bench.controllers')
   $scope.workout = Workouts.get($stateParams.workoutId);
   $scope.isFailureSet = false;
   $scope.failureReps = null;
+  $scope.score = null;
+
+  $ionicModal.fromTemplateUrl('templates/failureModal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.failureModal = modal;
+  });
+
+  $scope.openFailureModal = function(){
+    $scope.failureModal.show();
+  };
+
+  $scope.closeFailureModal = function(){
+    $scope.failureModal.hide();
+  };
   
   $ionicModal.fromTemplateUrl('templates/workoutCompleteModal.html', {
     scope: $scope,
@@ -35,8 +51,13 @@ angular.module('bench.controllers')
 
   $scope.$watch('lastCompleted', function(){
     if($scope.lastCompleted === $scope.workout.sets.length - 1){
-      $scope.isFailureSet = Workouts.isFailureSet($scope.workout.sets);
-      $scope.openWorkoutCompleteModal();
+      var isFailureSet = Workouts.isFailureSet($scope.workout.sets);
+      if (isFailureSet){
+        $scope.openFailureModal();
+      } else {
+        $scope.openWorkoutCompleteModal();  
+      }
+      
     }
   });
 
@@ -52,10 +73,22 @@ angular.module('bench.controllers')
       set.completed = false;
     }
 
-    $scope.evaluateFailureReps = function(reps){
-      $scope.changeWeight = Workouts.evaluateFailureReps(reps);
-    };
+  };
 
+  var closeFailureOpenComplete = function(){
+    $scope.failureModal.hide();
+    $scope.openWorkoutCompleteModal();
+  };
+
+  var handleFailureRepScore = function(score){
+    if (score.change === 0){
+      closeFailureOpenComplete();
+    }
+  };
+
+  $scope.evaluateFailureReps = function(reps){
+    $scope.score = Workouts.evaluateFailureReps(reps);
+    handleFailureRepScore(score);
   };
 
 });
