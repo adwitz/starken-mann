@@ -5,9 +5,11 @@
   <ion-content>
     Nice work!
     <div ng-show="isFailureSet">
-      How many reps did you do at the failure weight?
-      <input ng-model="failureReps" />
-      <button value="Submit" ng-click="evaluateFailureReps(failureReps)"></button>
+      <label for="failureReps">
+        <span>How many reps did you do at the failure weight?</span>
+        <input id="failureReps" ng-model="failureReps" />
+      </label>
+      <button ng-click="evaluateFailureReps(failureReps)">Submit</button>
     </div>
   </ion-content>
 </ion-modal-view>

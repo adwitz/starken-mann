@@ -3,7 +3,9 @@
     <h1 class="title">My Modal title</h1>
   </ion-header-bar>
   <ion-content>
-    <input value="Your 1RM here" ng-model="oneRepMax"/>
+    <label for="oneRepMax">
+      <input value="Your 1RM here" id="oneRepMax" type="tel" ng-model="oneRepMax"/>
+    </label>
     <div ng-show="errorMsg">{{errorMsg}}</div>
     <button ng-click="saveOneRepMax(oneRepMax)">Submit</button>
     <button ng-click="closeOneRepMaxModel()">Cancel</button>
