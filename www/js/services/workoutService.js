@@ -31,7 +31,9 @@ angular.module('bench.services')
       return false;
     },
     evaluateFailureReps: function(reps){
-      var response = {};
+      var response = {
+        reps: reps
+      };
       if (reps >= 5){
         response.change = 1;
         response.weight = '';
@@ -42,6 +44,7 @@ angular.module('bench.services')
         response.change = 0;
         response.weight = '';
       }
+      console.log(response);
       return response;
     }
   };

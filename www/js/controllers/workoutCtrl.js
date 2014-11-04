@@ -1,6 +1,6 @@
 angular.module('bench.controllers')
 
-.controller('WorkoutCtrl', function($scope, $stateParams, Workouts, $ionicModal) {
+.controller('WorkoutCtrl', function($scope, $stateParams, $state, Workouts, $ionicModal) {
   /*TODO add last completed function*/
   
   $scope.lastCompleted = -1;
@@ -28,24 +28,26 @@ angular.module('bench.controllers')
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
-    $scope.modal = modal;
+    $scope.completeModal = modal;
   });
   $scope.openWorkoutCompleteModal = function() {
-    $scope.modal.show();
+    $scope.completeModal.show();
   };
-  $scope.closeModal = function() {
-    $scope.modal.hide();
+  $scope.closeWorkoutCompleteModal = function() {
+    $scope.completeModal.hide();
+    console.log('hidden');
+    $state.go('app.workouts');
   };
   //Cleanup the modal when we're done with it!
   $scope.$on('$destroy', function() {
     $scope.modal.remove();
   });
   // Execute action on hide modal
-  $scope.$on('modal.hidden', function() {
-    // Execute action
+  $scope.$on('completeModal.hidden', function() {
+
   });
   // Execute action on remove modal
-  $scope.$on('modal.removed', function() {
+  $scope.$on('completeModal.removed', function() {
     // Execute action
   });
 
@@ -88,7 +90,29 @@ angular.module('bench.controllers')
 
   $scope.evaluateFailureReps = function(reps){
     $scope.score = Workouts.evaluateFailureReps(reps);
-    handleFailureRepScore(score);
+    handleFailureRepScore($scope.score);
+  };
+
+  $scope.saveAndCloseModal = function(){
+    closeFailureOpenComplete();
+  };
+
+  $scope.changeOneRM = function(change){
+    if (change === 1){
+      // Workouts.increaseOneRM();
+    } else if (change === -1){
+      //Workouts.decreaseOneRM();
+    }
+
+    $scope.saveAndCloseModal();
+  };
+
+  $scope.showChangeConfirmation = function(){
+    if ($scope.score === null){
+      return false;
+    } else if ($scope.score.change === 1 || $scope.score.change === -1){
+      return true;
+    }
   };
 
 });
