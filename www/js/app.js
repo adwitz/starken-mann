@@ -18,7 +18,6 @@ angular.module('bench', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.ser
       StatusBar.styleDefault();
     }
     if (!$localstorage.get('max', null)){
-      console.log('hereeeeee');
       $state.go('app.intro');
     }
 
@@ -55,34 +54,6 @@ angular.module('bench', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.ser
       }
     })
 
-    .state('app.browse', {
-      url: "/browse",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/browse.html"
-        }
-      }
-    })
-    .state('app.playlists', {
-      url: "/playlists",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/playlists.html",
-          controller: 'PlaylistsCtrl'
-        }
-      }
-    })
-
-    .state('app.single', {
-      url: "/playlists/:playlistId",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/playlist.html",
-          controller: 'PlaylistCtrl'
-        }
-      }
-    })
-
     .state('app.workouts', {
       url: "/workouts",
       views: {
@@ -99,6 +70,16 @@ angular.module('bench', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.ser
         'menuContent': {
           templateUrl: "templates/workout.html",
           controller: 'WorkoutCtrl'
+        }
+      }
+    })
+
+    .state('app.settings', {
+      url: "/settings",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/settings.html",
+          controller: 'SettingsCtrl'
         }
       }
     });
