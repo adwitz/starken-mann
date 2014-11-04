@@ -3,10 +3,7 @@ angular.module('bench.services')
 /**
  * A simple example service that returns some data.
  */
-.factory('Workouts', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
+.factory('Workouts', function($localstorage) {
 
   var workouts;
 
@@ -20,6 +17,11 @@ angular.module('bench.services')
     },
     set: function(data){
       workouts = data;
+      $localstorage.setObject('workouts', workouts);
+    },
+    updateWorkout: function(workout){
+      workouts[workout.id] = workout;
+      $localstorage.setObject('workouts', workouts);
     },
     setRepValue: function(workout, set, key, value){
       workout.sets[set][key] = value;

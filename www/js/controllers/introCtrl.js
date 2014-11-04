@@ -24,9 +24,8 @@ angular.module('bench.controllers')
     Requests.getWorkout(weight).then(function(data){
       console.log('some kind of success:', typeof data);
       $localstorage.set('max', weight);
-      $localstorage.setObject('workouts', data);
-      $scope.closeOneRepMaxModel();
       Workouts.set(data);
+      $scope.closeOneRepMaxModel();
       $state.go('app.workouts');
     }, function(err){
       console.log('err: ', err);

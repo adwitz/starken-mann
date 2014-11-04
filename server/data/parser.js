@@ -99,6 +99,7 @@ var processData = function(data){
       allWorkoutData[oneRM].push({
         id: Math.floor(i / 3),
         workout: Math.floor(i / 3) + 1,
+        completed: false,
         sets: sets
       });
     }

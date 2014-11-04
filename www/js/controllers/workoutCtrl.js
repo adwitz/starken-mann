@@ -32,15 +32,16 @@ angular.module('bench.controllers')
   });
   $scope.openWorkoutCompleteModal = function() {
     $scope.completeModal.show();
+    $scope.workout.completed = true;
+    
   };
   $scope.closeWorkoutCompleteModal = function() {
     $scope.completeModal.hide();
-    console.log('hidden');
     $state.go('app.workouts');
   };
   //Cleanup the modal when we're done with it!
   $scope.$on('$destroy', function() {
-    $scope.modal.remove();
+    $scope.completeModal.remove();
   });
   // Execute action on hide modal
   $scope.$on('completeModal.hidden', function() {
@@ -51,8 +52,14 @@ angular.module('bench.controllers')
     // Execute action
   });
 
-  $scope.$watch('lastCompleted', function(){
-    if($scope.lastCompleted === $scope.workout.sets.length - 1){
+  $scope.$watch('workout.completed', function(value){
+    if (value === true){
+      Workouts.updateWorkout($scope.workout);
+    }
+  });
+
+  $scope.$watch('lastCompleted', function(value){
+    if(value === $scope.workout.sets.length - 1){
       var isFailureSet = Workouts.isFailureSet($scope.workout.sets);
       if (isFailureSet){
         $scope.openFailureModal();
