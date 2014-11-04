@@ -9,7 +9,7 @@ angular.module('bench.controllers')
   $scope.failureReps = null;
   $scope.score = null;
 
-  $ionicModal.fromTemplateUrl('templates/failureModal.html', {
+  $ionicModal.fromTemplateUrl('templates/modals/failureModal.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
@@ -24,7 +24,7 @@ angular.module('bench.controllers')
     $scope.failureModal.hide();
   };
   
-  $ionicModal.fromTemplateUrl('templates/workoutCompleteModal.html', {
+  $ionicModal.fromTemplateUrl('templates/modals/workoutCompleteModal.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {

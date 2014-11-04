@@ -5,7 +5,7 @@ angular.module('bench.controllers')
   $scope.oneRepMax = undefined;
   $scope.errorMsg = false;
 
-  $ionicModal.fromTemplateUrl('templates/oneRepMaxModal.html', {
+  $ionicModal.fromTemplateUrl('templates/modals/oneRepMaxModal.html', {
       scope: $scope
   }).then(function(modal){
       $scope.oneRepMaxModal = modal;
