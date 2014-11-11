@@ -54,6 +54,15 @@ angular.module('bench', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.ser
       }
     })
 
+    .state('app.oneRM/:instructionId', {
+      url: "/intro/oneRM/:instructionId",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/oneRepMaxDetail.html"
+        }
+      }
+    })
+
     .state('app.workouts', {
       url: "/workouts",
       views: {
