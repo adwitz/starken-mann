@@ -45,20 +45,21 @@ angular.module('bench', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.ser
     })
 
     .state('app.oneRM', {
-      url: "/intro/oneRM",
+      url: "/oneRM",
       views: {
         'menuContent' :{
           templateUrl: "templates/oneRM.html",
-          controller: 'IntroCtrl'
+          controller: 'OneRepMaxCtrl'
         }
       }
     })
 
-    .state('app.oneRM/:instructionId', {
-      url: "/intro/oneRM/:instructionId",
+    .state('app.calculateOneRepMax', {
+      url: "/oneRM/:instructionId",
       views: {
         'menuContent': {
-          templateUrl: "templates/oneRepMaxDetail.html"
+          templateUrl: "templates/oneRepMaxDetail.html",
+          controller: 'OneRepMaxCtrl'
         }
       }
     })
@@ -95,4 +96,3 @@ angular.module('bench', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.ser
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/workouts');
 });
-

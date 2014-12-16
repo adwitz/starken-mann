@@ -7,75 +7,53 @@ angular.module('bench.services')
 
   var oneRepMaxSteps = [{
     type: 'lift',
-    content: 'Lift a light weight 4-5 times'
+    step: 0,
+    content: 'Lift a light weight 4-5 times',
+    timer: null
   }, {
     type: 'lift',
+    step: 1,
     content: 'Again, lift a light weight 4-5 times',
-    timer: 120
+    timer: 120,
+    confirm: false
   }, {
     type: 'lift',
+    step: 2,
     content: 'Increase to a weight you can lift three to four times.  Do three to four reps.',
-    timer: 180
+    timer: 180,
+    confirm: false,
   }, {
     type: 'lift',
+    step: 3,
     content: 'Increase to a weight you can lift about once.  Try to do one rep.',
-    timer: 180
-  },{
-    type: 'info',
-    content: 'Were you able to do one rep?',
-    confirm: true
-  },{
-    type: 'lift',
-    content: 'Great job! Increase the weight and try to do one rep.',
-    timer: 180
+    timer: 180,
+    confirm: true,
   }, {
     type: 'lift',
+    step: 4,
+    content: 'Great job! Increase the weight and try to do one rep.',
+    timer: 180,
+    confirm: true
+  }, {
+    type: 'lift',
+    step: 5,
     content: 'That may have been a bit much.  Remove some weight and try again.',
-    timer: 180
+    timer: 180,
+    confirm: false
+  }, {
+    type: 'success',
+    step: 6,
+    content: 'Your one rep max is ',
+    timer: null,
+    confirm: false
   }];
 
   return {
     all: function() {
-      return workouts;
+      return oneRepMaxSteps;
     },
     get: function(id) {
-      // Simple index lookup
-      return workouts[id];
-    },
-    set: function(data){
-      workouts = data;
-      $localstorage.setObject('workouts', workouts);
-    },
-    updateWorkout: function(workout){
-      workouts[workout.id] = workout;
-      $localstorage.setObject('workouts', workouts);
-    },
-    setRepValue: function(workout, set, key, value){
-      workout.sets[set][key] = value;
-    },
-    isFailureSet: function(sets){
-      if (sets[sets.length-1].type === 'failure'){
-        return true;
-      }
-      return false;
-    },
-    evaluateFailureReps: function(reps){
-      var response = {
-        reps: reps
-      };
-      if (reps >= 5){
-        response.change = 1;
-        response.weight = '';
-      } else if (reps < 3){
-        response.change = -1;
-        response.weight = '';
-      } else {
-        response.change = 0;
-        response.weight = '';
-      }
-      console.log(response);
-      return response;
+      return oneRepMaxSteps[id];
     }
   };
 });
-
