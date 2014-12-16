@@ -2,6 +2,7 @@ angular.module('bench.controllers')
 
 .controller('OneRepMaxCtrl', function($scope, $state, $localstorage, $ionicModal, $interval, $timeout, OneRepMax, Workouts) {
 
+  var timer;
   $scope.oneRepMax = null;
   $scope.errorMsg = false;
   $scope.countdown = false;
@@ -14,6 +15,9 @@ angular.module('bench.controllers')
   });
 
   var setAndInitiateTimer = function(){
+
+    timer && $interval.cancel(timer);
+
     $scope.countdown = true;
     $scope.timeRemaining = $scope.currentStepData.timer;
     $timeout(function(){
@@ -33,17 +37,15 @@ angular.module('bench.controllers')
         console.log($scope.timeRemaining);
       }
     };
-    var timer = $interval(function(){
+    timer = $interval(function(){
       runTimer();
-    }, 750);
+    }, 1000);
   };
-
-  //we need to add a kill process to the timer for whenever there is a change in view
 
   var moveToNextStep = function(start, success){
 
     if (start){
-      return $scope.currentStep;
+      return $scope.currentStepData;
     }
 
     var currentStep = $scope.currentStepData.step;
