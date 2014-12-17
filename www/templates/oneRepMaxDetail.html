@@ -6,6 +6,7 @@
     <div ng-show="countdown">Begin in {{timeRemaining}}</div>
     <div ng-hide="countdown">Go ahead!</div>
     <div>{{currentStepData.content}}</div>
-    <button ng-click="updateOneRepMaxStep()">Continue</button>
+    <button ng-hide="currentStepData.confirm" ng-click="updateOneRepMaxStep()">Continue</button>
+    <button ng-show="currentStepData.confirm" ng-click="openOneRepMaxModal()">Set max</button>
   </ion-content>
 </ion-view>

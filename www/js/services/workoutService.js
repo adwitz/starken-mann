@@ -46,9 +46,7 @@ angular.module('bench.services')
         response.change = 0;
         response.weight = '';
       }
-      console.log(response);
       return response;
     }
   };
 });
-

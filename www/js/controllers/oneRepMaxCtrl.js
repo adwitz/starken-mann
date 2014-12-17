@@ -68,7 +68,8 @@ angular.module('bench.controllers')
     $scope.currentStepData.timer && setAndInitiateTimer();
   };
 
-  $scope.openOneRepMaxModal = function(){
+  $scope.openOneRepMaxModal = function(userKnowsOneRepMax){
+    $scope.userKnowsOneRepMax = userKnowsOneRepMax;
     $scope.oneRepMaxModal.show();
   };
 

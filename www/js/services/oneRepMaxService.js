@@ -54,6 +54,16 @@ angular.module('bench.services')
     },
     get: function(id) {
       return oneRepMaxSteps[id];
+    },
+    validateOneRepMax: function(weight){
+      var response = {};
+      if (weight % 5 !== 0 || weight > 580 || weight < 100){
+        response.success = false;
+        response.message = 'Your 1RM must be between 100 and 580lbs and divisible by 5';
+      } else {
+        response.success = true;
+      }
+      return response;
     }
   };
 });
