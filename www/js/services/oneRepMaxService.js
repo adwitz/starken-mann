@@ -39,9 +39,9 @@ angular.module('bench.services')
     step: 5,
     content: 'That may have been a bit much.  Remove some weight and try again.',
     timer: 180,
-    confirm: false
+    confirm: true
   }, {
-    type: 'success',
+    type: 'completion',
     step: 6,
     content: 'Your one rep max is ',
     timer: null,
@@ -55,7 +55,7 @@ angular.module('bench.services')
     get: function(id) {
       return oneRepMaxSteps[id];
     },
-    validateOneRepMax: function(weight){
+    validate: function(weight){
       var response = {};
       if (weight % 5 !== 0 || weight > 580 || weight < 100){
         response.success = false;

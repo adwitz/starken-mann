@@ -16,7 +16,7 @@ angular.module('bench.controllers')
 
   var setAndInitiateTimer = function(){
 
-    timer && $interval.cancel(timer);
+    timer && stopTimer();
 
     $scope.countdown = true;
     $scope.timeRemaining = $scope.currentStepData.timer;
@@ -30,7 +30,7 @@ angular.module('bench.controllers')
     var runTimer = function(){
 
       if ($scope.timeRemaining <= 0){
-        $interval.cancel(timer);
+        stopTimer();
         $scope.countdown = false;
       } else {
         $scope.timeRemaining -= 1;
@@ -42,6 +42,10 @@ angular.module('bench.controllers')
     }, 1000);
   };
 
+  var stopTimer = function(){
+    $interval.cancel(timer);
+  };
+
   var moveToNextStep = function(start, success){
 
     if (start){
@@ -51,14 +55,14 @@ angular.module('bench.controllers')
     var currentStep = $scope.currentStepData.step;
 
     if (currentStep < 3){
-      return $scope.currentStepData = OneRepMax.get(currentStep + 1);
+      return OneRepMax.get(currentStep + 1);
     } else if (success){
-      return $scope.currentStepData = OneRepMax.get(4);
+      return OneRepMax.get(4);
     } else if (success === false && !$scope.oneRepMax){
-      return $scope.currentStepData = OneRepMax.get(5);
+      return OneRepMax.get(5);
     } else if (success === false && $scope.oneRepMax){
-      //show current max success response
-      //prompt to go to workout section
+      saveOneRepMax($scope.oneRepMax);
+      return OneRepMax.get(6);
     }
   };
 
@@ -69,17 +73,30 @@ angular.module('bench.controllers')
   };
 
   $scope.openOneRepMaxModal = function(userKnowsOneRepMax){
+    stopTimer();
     $scope.userKnowsOneRepMax = userKnowsOneRepMax;
     $scope.oneRepMaxModal.show();
   };
 
-  $scope.saveOneRepMax = function(weight){
+  $scope.setOneRepMax = function(weight){
+    var testedMax = OneRepMax.validate(weight);
+    if (testedMax.success){
+      $scope.oneRepMax = weight;
+      $scope.closeOneRepMaxModal();
+      $scope.updateOneRepMaxStep(false, true);
+    } else {
+      $scope.errorMsg = testedMax.message;
+    }
+  };
+
+  var saveOneRepMax = function(weight){
     //save current one RM to localstorage
     Requests.getWorkout(weight).then(function(data){
       console.log('some kind of success:', typeof data);
+      /* This local storage save could be added to the set method */
       $localstorage.set('max', weight);
       Workouts.set(data);
-      $scope.closeOneRepMaxModel();
+      $scope.closeOneRepMaxModal();
       $state.go('app.workouts');
     }, function(err){
       console.log('err: ', err);
@@ -89,7 +106,17 @@ angular.module('bench.controllers')
 
   };
 
-  $scope.closeOneRepMaxModel = function(){
+  $scope.closeOneRepMaxModal = function(){
+    $scope.errorMsg = null;
     $scope.oneRepMaxModal.hide();
+  };
+
+  $scope.toggleUserOneRepMax = function(){
+    $scope.userKnowsOneRepMax = !$scope.userKnowsOneRepMax;
+  };
+
+  $scope.liftFail = function(){
+    $scope.closeOneRepMaxModal();
+    $scope.updateOneRepMaxStep(false, false);
   };
 });

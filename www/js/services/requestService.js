@@ -3,13 +3,15 @@ angular.module('bench.services')
 /**
  * A simple example service that returns some data.
  */
-.factory('Requests', function($http, $q) {
+.factory('Requests', function($http, $q, OneRepMax) {
 
   return {
     getWorkout: function(weight){
       var d = $q.defer();
 
-      if (weight % 5 !== 0 || weight > 580 || weight < 100){
+      var validatedMax = OneRepMax.validate(weight);
+
+      if (!validatedMax.success){
         d.reject('Your 1RM must be between 100 and 580lbs and divisible by 5');
       } else {
         $http.get('http://localhost:3000/workouts/' + weight, null, {withCredentials: true})
@@ -27,4 +29,3 @@ angular.module('bench.services')
   };
 
 });
-

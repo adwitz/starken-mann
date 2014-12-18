@@ -5,16 +5,17 @@
   <ion-content>
     <div ng-hide="userKnowsOneRepMax">
       <div>Did you succeed?</div>
-      <button>Yes</button>
-      <button>No</button>
+      <button ng-click="toggleUserOneRepMax()">Yes</button>
+      <button ng-click="liftFail()">No</button>
     </div>
     <div ng-show="userKnowsOneRepMax">
       <label for="oneRepMax">
-        <input value="Your 1RM here" id="oneRepMax" type="tel" ng-model="oneRepMax"/>
+        How much didst thou lift?
+        <input value="Your 1RM here" id="oneRepMax" type="tel" placeholder="weight" ng-model="oneRepMax"/>
       </label>
       <div ng-show="errorMsg">{{errorMsg}}</div>
-      <button ng-click="saveOneRepMax(oneRepMax)">Submit</button>
-      <button ng-click="closeOneRepMaxModel()">Cancel</button>
+      <button ng-click="setOneRepMax(oneRepMax)">Submit</button>
+      <button ng-click="closeOneRepMaxModal()">Cancel</button>
     </div>
   </ion-content>
 </ion-modal-view>
