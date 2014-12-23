@@ -3,10 +3,10 @@ angular.module('bench.controllers')
 .controller('OneRepMaxCtrl', function($scope, $state, $localstorage, $ionicModal, $interval, $timeout, OneRepMax, Workouts) {
 
   var timer;
-  $scope.oneRepMax = null;
+  $scope.oneRepMax = OneRepMax.getMax();
   $scope.errorMsg = false;
   $scope.countdown = false;
-  $scope.currentStepData = OneRepMax.get(0);
+  $scope.currentStepData = OneRepMax.getStep(0);
 
   $ionicModal.fromTemplateUrl('templates/modals/oneRepMaxModal.html', {
     scope: $scope
@@ -34,7 +34,6 @@ angular.module('bench.controllers')
         $scope.countdown = false;
       } else {
         $scope.timeRemaining -= 1;
-        console.log($scope.timeRemaining);
       }
     };
     timer = $interval(function(){
@@ -46,29 +45,9 @@ angular.module('bench.controllers')
     $interval.cancel(timer);
   };
 
-  var moveToNextStep = function(start, success){
-
-    if (start){
-      return $scope.currentStepData;
-    }
-
-    var currentStep = $scope.currentStepData.step;
-
-    if (currentStep < 3){
-      return OneRepMax.get(currentStep + 1);
-    } else if (success){
-      return OneRepMax.get(4);
-    } else if (success === false && !$scope.oneRepMax){
-      return OneRepMax.get(5);
-    } else if (success === false && $scope.oneRepMax){
-      saveOneRepMax($scope.oneRepMax);
-      return OneRepMax.get(6);
-    }
-  };
-
   $scope.updateOneRepMaxStep = function(start, success){
     $state.go('app.calculateOneRepMax');
-    $scope.currentStepData = moveToNextStep(start, success);
+    $scope.currentStepData = $scope.currentStepData.getNext(start, success);
     $scope.currentStepData.timer && setAndInitiateTimer();
   };
 
@@ -79,7 +58,7 @@ angular.module('bench.controllers')
   };
 
   $scope.setOneRepMax = function(weight){
-    var testedMax = OneRepMax.validate(weight);
+    var testedMax = OneRepMax.setMax(weight);
     if (testedMax.success){
       $scope.oneRepMax = weight;
       $scope.closeOneRepMaxModal();
