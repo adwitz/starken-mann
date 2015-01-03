@@ -3,7 +3,7 @@ angular.module('bench.controllers')
 .controller('OneRepMaxCtrl', function($scope, $state, $localstorage, $ionicModal, $interval, $timeout, OneRepMax, Workouts) {
 
   var timer;
-  $scope.oneRepMax = OneRepMax.getMax();
+
   $scope.errorMsg = false;
   $scope.countdown = false;
   $scope.currentStepData = OneRepMax.getStep(0);
@@ -13,6 +13,10 @@ angular.module('bench.controllers')
   }).then(function(modal){
     $scope.oneRepMaxModal = modal;
   });
+
+  var clearOneRepMax = function(){
+    $scope.oneRepMax = null;
+  };
 
   var setAndInitiateTimer = function(){
 
@@ -29,7 +33,7 @@ angular.module('bench.controllers')
 
     var runTimer = function(){
 
-      if ($scope.timeRemaining <= 0){
+      if ($scope.timeRemaining <= 1){
         stopTimer();
         $scope.countdown = false;
       } else {
@@ -45,13 +49,17 @@ angular.module('bench.controllers')
     $interval.cancel(timer);
   };
 
-  $scope.updateOneRepMaxStep = function(start, success){
+  $scope.goToOneRepMaxSequence = function(){
     $state.go('app.calculateOneRepMax');
-    $scope.currentStepData = $scope.currentStepData.getNext(start, success);
+  };
+
+  $scope.updateOneRepMaxStep = function(success){
+    $scope.currentStepData = $scope.currentStepData.getNext(success);
     $scope.currentStepData.timer && setAndInitiateTimer();
   };
 
   $scope.openOneRepMaxModal = function(userKnowsOneRepMax){
+    clearOneRepMax();
     stopTimer();
     $scope.userKnowsOneRepMax = userKnowsOneRepMax;
     $scope.oneRepMaxModal.show();
@@ -62,14 +70,13 @@ angular.module('bench.controllers')
     if (testedMax.success){
       $scope.oneRepMax = weight;
       $scope.closeOneRepMaxModal();
-      $scope.updateOneRepMaxStep(false, true);
+      $scope.updateOneRepMaxStep(true);
     } else {
       $scope.errorMsg = testedMax.message;
     }
   };
 
   var saveOneRepMax = function(weight){
-    //save current one RM to localstorage
     Requests.getWorkout(weight).then(function(data){
       console.log('some kind of success:', typeof data);
       /* This local storage save could be added to the set method */
