@@ -5,19 +5,23 @@ angular.module('bench.services')
  */
 .factory('Workouts', function($localstorage) {
 
-  var workouts;
+  var workouts, max;
 
   return {
     all: function() {
+      workouts = $localstorage.getObject('workouts');
       return workouts;
     },
     get: function(id) {
-      // Simple index lookup
       return workouts[id];
     },
-    set: function(data){
-      workouts = data;
-      $localstorage.setObject('workouts', workouts);
+    set: function(data, updateLocalStorage){
+      workouts = data.workouts;
+      max = data.max;
+      if (updateLocalStorage){
+        $localstorage.setObject('workouts', workouts);
+        $localstorage.setObject('max', max);
+      }
     },
     updateWorkout: function(workout){
       workouts[workout.id] = workout;
@@ -38,14 +42,12 @@ angular.module('bench.services')
       };
       if (reps >= 5){
         response.change = 1;
-        response.weight = '';
       } else if (reps < 3){
         response.change = -1;
-        response.weight = '';
       } else {
         response.change = 0;
-        response.weight = '';
       }
+      response.weight = '';
       return response;
     }
   };
