@@ -39,7 +39,7 @@ var sets = [1,2,2,2,2,1,1,2,2,2,2,1,1,2,1,2,2,1,2,2,1,2,2,1,2,2,1,2,2,1,2,2,1,2,
 var populateSets = function(startIndex, regimen, reps){
   var workout = [], pos;
   var type;
-  
+
   for (var i=0; i<3; i++){
     for (var j=0; j<sets[startIndex + i - 1]; j++){
 
@@ -50,7 +50,7 @@ var populateSets = function(startIndex, regimen, reps){
         weight: regimen[startIndex + i],
         completed: false,
         type: type
-      });   
+      });
     }
 
   }
@@ -82,7 +82,7 @@ var processData = function(data){
     row = row.filter(function(item){
       return cleanUp(item);
     });
-    
+
     return row;
 
   });
@@ -93,17 +93,20 @@ var processData = function(data){
 
   oneRMs.forEach(function(regimen, oneRMIndex, body){
     oneRM = regimen[0];
-    allWorkoutData[oneRM] = [];
+    allWorkoutData[oneRM] = {
+      max: oneRM,
+      workouts: []
+    };
     for (var i=1; i<regimen.length; i+=3){
       sets = populateSets(i, regimen, reps);
-      allWorkoutData[oneRM].push({
+      allWorkoutData[oneRM].workouts.push({
         id: Math.floor(i / 3),
         workout: Math.floor(i / 3) + 1,
         completed: false,
         sets: sets
       });
     }
-    
+
   });
 
   return allWorkoutData;
@@ -112,7 +115,7 @@ var processData = function(data){
 
 fs.readFile('server/data/bench-data.csv', 'utf-8', function(err, data){
   if (err) throw err;
-  
+
   var processedData = processData(data);
 
   fs.writeFile('server/data/processed.json', JSON.stringify(processedData), function(err){
