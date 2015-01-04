@@ -8,7 +8,7 @@ angular.module('bench.controllers')
   $scope.currentStepData = OneRepMax.getStep(0);
   $scope.getTimeRemaining = Timer.getTimeRemaining;
 
-  $ionicModal.fromTemplateUrl('templates/modals/oneRepMaxModal.html', {
+  $ionicModal.fromTemplateUrl('templates/modals/oneRepMaxWorkflow.html', {
     scope: $scope
   }).then(function(modal){
     $scope.oneRepMaxModal = modal;

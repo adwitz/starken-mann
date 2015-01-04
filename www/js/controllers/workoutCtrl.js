@@ -2,14 +2,14 @@ angular.module('bench.controllers')
 
 .controller('WorkoutCtrl', function($scope, $stateParams, $state, Workouts, $ionicModal) {
   /*TODO add last completed function*/
-  
+
   $scope.lastCompleted = -1;
   $scope.workout = Workouts.get($stateParams.workoutId);
   $scope.isFailureSet = false;
   $scope.failureReps = null;
   $scope.score = null;
 
-  $ionicModal.fromTemplateUrl('templates/modals/failureModal.html', {
+  $ionicModal.fromTemplateUrl('templates/modals/failure.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
@@ -23,8 +23,8 @@ angular.module('bench.controllers')
   $scope.closeFailureModal = function(){
     $scope.failureModal.hide();
   };
-  
-  $ionicModal.fromTemplateUrl('templates/modals/workoutCompleteModal.html', {
+
+  $ionicModal.fromTemplateUrl('templates/modals/workoutComplete.html', {
     scope: $scope,
     animation: 'slide-in-up'
   }).then(function(modal) {
@@ -33,7 +33,7 @@ angular.module('bench.controllers')
   $scope.openWorkoutCompleteModal = function() {
     $scope.completeModal.show();
     $scope.workout.completed = true;
-    
+
   };
   $scope.closeWorkoutCompleteModal = function() {
     $scope.completeModal.hide();
@@ -64,16 +64,16 @@ angular.module('bench.controllers')
       if (isFailureSet){
         $scope.openFailureModal();
       } else {
-        $scope.openWorkoutCompleteModal();  
+        $scope.openWorkoutCompleteModal();
       }
-      
+
     }
   });
 
   $scope.markRepComplete = function(set, sets, $index){
     if ($scope.lastCompleted + 1 === $index){
       $scope.lastCompleted = $index;
-      set.completed = true;  
+      set.completed = true;
     } else if ($scope.lastCompleted === $index){
       $scope.lastCompleted = $index - 1;
       set.completed = false;
