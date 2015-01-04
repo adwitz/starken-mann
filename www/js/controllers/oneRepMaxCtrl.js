@@ -1,12 +1,12 @@
 angular.module('bench.controllers')
 
-.controller('OneRepMaxCtrl', function($scope, $state, $localstorage, $ionicModal, $interval, $timeout, OneRepMax, Workouts) {
+.controller('OneRepMaxCtrl', function($scope, $state, $localstorage, $ionicModal, $interval, $timeout, OneRepMax, Workouts, Timer) {
 
   var timer;
 
   $scope.errorMsg = false;
-  $scope.countdown = false;
   $scope.currentStepData = OneRepMax.getStep(0);
+  $scope.getTimeRemaining = Timer.getTimeRemaining;
 
   $ionicModal.fromTemplateUrl('templates/modals/oneRepMaxModal.html', {
     scope: $scope
@@ -15,38 +15,16 @@ angular.module('bench.controllers')
   });
 
   var clearOneRepMax = function(){
-    $scope.oneRepMax = null;
+    $scope.max = {};
   };
 
   var setAndInitiateTimer = function(){
 
-    timer && stopTimer();
-
-    $scope.countdown = true;
-    $scope.timeRemaining = $scope.currentStepData.timer;
+    $scope.clockIsRunning = Timer.clockIsRunning;
+    Timer.setTimer($scope.currentStepData.timer);
     $timeout(function(){
-      startTimer();
+      Timer.startTimer($scope.timeRemaining);
     }, 500);
-  };
-
-  var startTimer = function(){
-
-    var runTimer = function(){
-
-      if ($scope.timeRemaining <= 1){
-        stopTimer();
-        $scope.countdown = false;
-      } else {
-        $scope.timeRemaining -= 1;
-      }
-    };
-    timer = $interval(function(){
-      runTimer();
-    }, 1000);
-  };
-
-  var stopTimer = function(){
-    $interval.cancel(timer);
   };
 
   $scope.goToOneRepMaxSequence = function(){
@@ -60,7 +38,7 @@ angular.module('bench.controllers')
 
   $scope.openOneRepMaxModal = function(userKnowsOneRepMax){
     clearOneRepMax();
-    stopTimer();
+    Timer.stopTimer();
     $scope.userKnowsOneRepMax = userKnowsOneRepMax;
     $scope.oneRepMaxModal.show();
   };
@@ -68,7 +46,7 @@ angular.module('bench.controllers')
   $scope.setOneRepMax = function(weight){
     var testedMax = OneRepMax.setMax(weight);
     if (testedMax.success){
-      $scope.oneRepMax = weight;
+      $scope.max.weight = weight;
       $scope.closeOneRepMaxModal();
       $scope.updateOneRepMaxStep(true);
     } else {
@@ -86,7 +64,6 @@ angular.module('bench.controllers')
       $state.go('app.workouts');
     }, function(err){
       console.log('err: ', err);
-      //show error message
       $scope.errorMsg = err;
     });
 

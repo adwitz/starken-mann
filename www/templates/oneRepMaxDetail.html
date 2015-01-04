@@ -4,8 +4,8 @@
   </ion-nav-buttons>
   <ion-content has-header="true" padding="true">
     <div ng-show="currentStepData.type === 'lift'">
-      <div ng-show="countdown">Begin in {{timeRemaining}}</div>
-      <div ng-hide="countdown">Go ahead!</div>
+      <div ng-show="currentStepData.timer && clockIsRunning()">Begin in {{getTimeRemaining()}}</div>
+      <div ng-show="currentStepData.timer && !clockIsRunning()">Go ahead!</div>
       <div>{{currentStepData.content}}</div>
       <button ng-hide="currentStepData.confirm" ng-click="updateOneRepMaxStep()">Continue</button>
       <button ng-show="currentStepData.confirm" ng-click="openOneRepMaxModal()">Continue1</button>
