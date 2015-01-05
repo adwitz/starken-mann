@@ -4,14 +4,15 @@ angular.module('bench.controllers')
 
   var timer;
 
+  $scope.max = {};
   $scope.errorMsg = false;
   $scope.currentStepData = OneRepMax.getStep(0);
   $scope.getTimeRemaining = Timer.getTimeRemaining;
 
-  $ionicModal.fromTemplateUrl('templates/modals/oneRepMaxWorkflow.html', {
+  $ionicModal.fromTemplateUrl('templates/modals/unknownOneRepMax.html', {
     scope: $scope
   }).then(function(modal){
-    $scope.oneRepMaxModal = modal;
+    $scope.unknownOneRepMaxModal = modal;
   });
 
   var clearOneRepMax = function(){
@@ -31,6 +32,10 @@ angular.module('bench.controllers')
     $state.go('app.calculateOneRepMax');
   };
 
+  $scope.goToSetOneRepMax = function(){
+    $state.go('app.setOneRepMax');
+  };
+
   $scope.updateOneRepMaxStep = function(success){
     $scope.currentStepData = $scope.currentStepData.getNext(success);
     $scope.currentStepData.timer && setAndInitiateTimer();
@@ -40,33 +45,47 @@ angular.module('bench.controllers')
     clearOneRepMax();
     Timer.stopTimer();
     $scope.userKnowsOneRepMax = userKnowsOneRepMax;
-    $scope.oneRepMaxModal.show();
+    $scope.unknownOneRepMaxModal.show();
   };
 
-  $scope.validateAndSetOneRepMax = function(weight){
+  var validateWeight = function(weight, flowCallback){
     var testedMax = OneRepMax.setMax(weight);
     if (testedMax.success){
       $scope.max.weight = weight;
-      $scope.closeOneRepMaxModal();
-      $scope.updateOneRepMaxStep(true);
+      flowCallback(true);
     } else {
       $scope.errorMsg = testedMax.message;
     }
   };
 
+  $scope.setKnownOneRepMax = function(weight){
+    validateWeight(weight, function(){
+      saveOneRepMax(weight);
+      console.log('saved max here');
+    });
+  };
+
+  $scope.setUnknownOneRepMax = function(weight){
+    validateWeight(weight, closeModalAndShowNextStep);
+  };
+
   var saveOneRepMax = function(weight){
     Requests.getWorkout(weight).then(function(data){
       Workouts.set(data, true);
-      $scope.closeOneRepMaxModal();
     }, function(err){
       $scope.errorMsg = err;
     });
 
   };
 
+  var closeModalAndShowNextStep = function(success){
+    $scope.closeOneRepMaxModal();
+    $scope.updateOneRepMaxStep(success);
+  };
+
   $scope.closeOneRepMaxModal = function(){
     $scope.errorMsg = null;
-    $scope.oneRepMaxModal.hide();
+    $scope.unknownOneRepMaxModal.hide();
   };
 
   $scope.toggleUserOneRepMax = function(){

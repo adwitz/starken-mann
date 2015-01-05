@@ -55,10 +55,20 @@ angular.module('bench', ['ionic', 'ionic.utils', 'bench.controllers', 'bench.ser
     })
 
     .state('app.calculateOneRepMax', {
-      url: "/oneRM/:instructionId",
+      url: "/oneRM/calculate/:instructionId",
       views: {
         'menuContent': {
           templateUrl: "templates/oneRepMaxDetail.html",
+          controller: 'OneRepMaxCtrl'
+        }
+      }
+    })
+
+    .state('app.setOneRepMax', {
+      url: "/oneRM/set",
+      views: {
+        'menuContent': {
+          templateUrl: "templates/setOneRepMax.html",
           controller: 'OneRepMaxCtrl'
         }
       }

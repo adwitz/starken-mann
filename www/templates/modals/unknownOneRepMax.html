@@ -14,7 +14,7 @@
         <input id="oneRepMax" type="tel" placeholder="Your 1RM here" ng-model="max.weight"/>
       </label>
       <div ng-show="errorMsg">{{errorMsg}}</div>
-      <button ng-click="validateAndSetOneRepMax(max.weight)">Submit</button>
+      <button ng-click="setUnknownOneRepMax(max.weight)">Submit</button>
       <button ng-click="closeOneRepMaxModal()">Cancel</button>
     </div>
   </ion-content>
