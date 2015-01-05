@@ -14,4 +14,6 @@ angular.module('bench.controllers')
     }
   };
 
+  displayWorkouts();
+
 });
