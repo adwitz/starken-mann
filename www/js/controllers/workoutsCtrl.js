@@ -1,9 +1,17 @@
 angular.module('bench.controllers')
 
-.controller('WorkoutsCtrl', function($scope, $localstorage, Workouts, Requests) {
-  var storedWorkouts = $localstorage.getObject('workouts');
+.controller('WorkoutsCtrl', function($scope, $state, $localstorage, Workouts, Requests) {
 
-  Workouts.set(storedWorkouts);
+  $scope.goToOneRepMax = function(){
+    $state.go('app.oneRM');
+  };
 
-  $scope.workouts = Workouts.all();
+  var displayWorkouts = function(){
+    if ($localstorage.get('max', null)){
+      var storedWorkouts = $localstorage.getObject('workouts');
+      Workouts.set(storedWorkouts);
+      $scope.workouts = Workouts.all();
+    }
+  };
+
 });

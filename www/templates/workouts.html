@@ -3,7 +3,11 @@
     <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
   </ion-nav-buttons>
   <ion-content class="has-header">
-    <ion-list>
+    <div ng-show="!workouts">
+      <div>It doesn't look like you've set your one rep max.</div>
+      <button ng-click="goToOneRepMax()">Set your one rep max</button>
+    </div>
+    <ion-list ng-show="workouts">
       <ion-item ng-repeat="workout in workouts" type="item-text-wrap" href="#/app/workouts/{{workout.id}}">
         Workout #{{workout.workout}}
       </ion-item>
