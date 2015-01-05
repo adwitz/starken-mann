@@ -8,7 +8,7 @@
       <div ng-show="currentStepData.timer && !clockIsRunning()">Go ahead!</div>
       <div>{{currentStepData.content}}</div>
       <button ng-hide="currentStepData.confirm" ng-click="updateOneRepMaxStep()">Continue</button>
-      <button ng-show="currentStepData.confirm" ng-click="openOneRepMaxModal()">Continue1</button>
+      <button ng-show="currentStepData.confirm" ng-click="openOneRepMaxModal()">Continue</button>
     </div>
     <div ng-show="currentStepData.type === 'completion'">
       Cool. take a break. see you in a couple of days.
