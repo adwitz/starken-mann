@@ -1,15 +1,19 @@
 angular.module('bench.controllers')
 
-.controller('SettingsCtrl', function($scope, $localstorage) {
+.controller('SettingsCtrl', function($scope, $localstorage, $state) {
 
   var getOneRepMaxValue = function(){
-    var oneRepMax = JSON.parse($localstorage.get('max'));
+    var oneRepMax = $localstorage.get('max');
     if (oneRepMax) {
-      return oneRepMax;
+      return JSON.parse(oneRepMax);
     }
     return undefined;
   };
 
   $scope.oneRepMax = getOneRepMaxValue();
+
+  $scope.goToSetOneRepMax = function(){
+    $state.go('app.oneRM');
+  };
 
 });

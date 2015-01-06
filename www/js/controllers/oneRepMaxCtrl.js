@@ -1,6 +1,6 @@
 angular.module('bench.controllers')
 
-.controller('OneRepMaxCtrl', function($scope, $state, $localstorage, $q, $ionicModal, $interval, $timeout, OneRepMax, Workouts, Timer, Requests) {
+.controller('OneRepMaxCtrl', function($scope, $state, $localstorage, $ionicModal, $interval, $timeout, OneRepMax, Workouts, Timer, Requests) {
 
   var timer;
 
