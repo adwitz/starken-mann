@@ -1,6 +1,6 @@
 angular.module('bench.controllers')
 
-.controller('OneRepMaxCtrl', function($scope, $state, $localstorage, $ionicModal, $interval, $timeout, OneRepMax, Workouts, Timer, Requests) {
+.controller('OneRepMaxCtrl', function($scope, $state, $localstorage, $q, $ionicModal, $interval, $timeout, OneRepMax, Workouts, Timer, Requests) {
 
   var timer;
 
@@ -36,6 +36,14 @@ angular.module('bench.controllers')
     $state.go('app.setOneRepMax');
   };
 
+  var goToOneRepMaxSuccess = function(){
+    $state.go('app.oneRepMaxSuccess');
+  };
+
+  $scope.goToWorkouts = function(){
+    $state.go('app.workouts');
+  };
+
   $scope.updateOneRepMaxStep = function(success){
     $scope.currentStepData = $scope.currentStepData.getNext(success);
     $scope.currentStepData.timer && setAndInitiateTimer();
@@ -60,8 +68,7 @@ angular.module('bench.controllers')
 
   $scope.setKnownOneRepMax = function(weight){
     validateWeight(weight, function(){
-      saveOneRepMax(weight);
-      console.log('saved max here');
+      saveOneRepMax(weight, goToOneRepMaxSuccess);
     });
   };
 
@@ -69,9 +76,10 @@ angular.module('bench.controllers')
     validateWeight(weight, closeModalAndShowNextStep);
   };
 
-  var saveOneRepMax = function(weight){
+  var saveOneRepMax = function(weight, successCallback){
     Requests.getWorkout(weight).then(function(data){
       Workouts.set(data, true);
+      successCallback && successCallback();
     }, function(err){
       $scope.errorMsg = err;
     });
