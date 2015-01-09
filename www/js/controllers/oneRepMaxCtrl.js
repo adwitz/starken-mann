@@ -4,6 +4,8 @@ angular.module('bench.controllers')
 
   var timer;
 
+
+
   $scope.max = {};
   $scope.errorMsg = false;
   $scope.currentStepData = OneRepMax.getStep(0);
@@ -14,6 +16,10 @@ angular.module('bench.controllers')
   }).then(function(modal){
     $scope.unknownOneRepMaxModal = modal;
   });
+
+  $scope.isNotFirstStep = function(){
+    return $scope.currentStepData.step !== 0;
+  };
 
   var clearOneRepMax = function(){
     $scope.max = {};
