@@ -19,7 +19,7 @@
       <div ng-show="score.change === -1">
         It looks like that may be been a challenge.  A lighter weight may help you progress more effectively.  Would you like to decrease your 1RM to {{score.weight}} for your next workout?
       </div>
-      <button ng-click="changeOneRM(score.change)">Yes</button>
+      <button ng-click="adjustOneRepMax(score.change)">Yes</button>
       <button ng-click="saveAndCloseModal()">No</button>
     </div>
   </ion-content>

@@ -30,32 +30,26 @@ angular.module('bench.controllers')
   }).then(function(modal) {
     $scope.completeModal = modal;
   });
+
   $scope.openWorkoutCompleteModal = function() {
     $scope.completeModal.show();
-    $scope.workout.completed = true;
-
   };
+
   $scope.closeWorkoutCompleteModal = function() {
     $scope.completeModal.hide();
     $state.go('app.workouts');
   };
-  //Cleanup the modal when we're done with it!
+
   $scope.$on('$destroy', function() {
     $scope.completeModal.remove();
   });
-  // Execute action on hide modal
+
   $scope.$on('completeModal.hidden', function() {
 
   });
-  // Execute action on remove modal
-  $scope.$on('completeModal.removed', function() {
-    // Execute action
-  });
 
-  $scope.$watch('workout.completed', function(value){
-    if (value === true){
-      Workouts.updateWorkout($scope.workout);
-    }
+  $scope.$on('completeModal.removed', function() {
+
   });
 
   $scope.$watch('lastCompleted', function(value){
@@ -85,7 +79,7 @@ angular.module('bench.controllers')
   };
 
   var closeFailureOpenComplete = function(){
-    $scope.failureModal.hide();
+    $scope.closeFailureModal();
     $scope.openWorkoutCompleteModal();
   };
 
@@ -93,6 +87,12 @@ angular.module('bench.controllers')
     if (score.change === 0){
       closeFailureOpenComplete();
     }
+    setWorkoutComplete();
+  };
+
+  var setWorkoutComplete = function(){
+    $scope.workout.completed = true;
+    Workouts.updateWorkout($scope.workout);
   };
 
   $scope.evaluateFailureReps = function(reps){
@@ -104,11 +104,11 @@ angular.module('bench.controllers')
     closeFailureOpenComplete();
   };
 
-  $scope.changeOneRM = function(change){
+  $scope.adjustOneRepMax = function(change){
     if (change === 1){
-      // Workouts.increaseOneRM();
+      Workouts.increaseOneRepMax();
     } else if (change === -1){
-      //Workouts.decreaseOneRM();
+      Workouts.decreaseOneRepMax();
     }
 
     $scope.saveAndCloseModal();

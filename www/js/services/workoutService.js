@@ -3,13 +3,34 @@ angular.module('bench.services')
 /**
  * A simple example service that returns some data.
  */
-.factory('Workouts', function($localstorage) {
+.factory('Workouts', function(Storage, Requests) {
 
-  var workouts, max;
+  var workouts = Storage.getWorkouts();
+
+  var lastCompletedWorkout = Storage.getLastCompletedWorkout();
+
+  var oneRepMax = Storage.getOneRepMax();
+
+  var getAdjustedWorkoutData = function(amount){
+    return Requests.getWorkout(Storage.getOneRepMax() + amount);
+  };
+
+  var updateRemainingWorkouts = function(changedWeightWorkouts){
+    var lastCompleted = Storage.getLastCompletedWorkout();
+    var workouts = Storage.getWorkouts();
+    var updatedWorkoutList = workouts.map(function(workout, index){
+      if (index <= lastCompleted){
+        return workout;
+      } else {
+        return changedWeightWorkouts[index];
+      }
+    });
+    Storage.setWorkouts(updatedWorkoutList);
+  };
 
   return {
     all: function() {
-      workouts = $localstorage.getObject('workouts');
+      workouts = Storage.getWorkouts();
       return workouts;
     },
     get: function(id) {
@@ -17,15 +38,18 @@ angular.module('bench.services')
     },
     set: function(data, updateLocalStorage){
       workouts = data.workouts;
-      max = data.max;
+      oneRepMax = data.max;
       if (updateLocalStorage){
-        $localstorage.setObject('workouts', workouts);
-        $localstorage.setObject('max', max);
+        Storage.setWorkouts(workouts);
+        Storage.setOneRepMax(oneRepMax);
       }
     },
     updateWorkout: function(workout){
+      lastCompletedWorkout = workout.id;
+      Storage.setLastCompletedWorkout(lastCompletedWorkout);
+      /* TODO abstract line below into function that can update one or remaining workouts */
       workouts[workout.id] = workout;
-      $localstorage.setObject('workouts', workouts);
+      Storage.setWorkouts(workouts);
     },
     setRepValue: function(workout, set, key, value){
       workout.sets[set][key] = value;
@@ -49,6 +73,19 @@ angular.module('bench.services')
       }
       response.weight = '';
       return response;
+    },
+    increaseOneRepMax: function(){
+      var adjustedMaxData = getAdjustedWorkoutData(5).then(function(data){
+        updateRemainingWorkouts(adjustedMaxData);
+        console.log('successfully retreived new max data', data);
+      }, function(err){
+        console.log('error retreiving new max data: ', err);
+      });
+
+    },
+    decreaseOneRepMax: function(){
+      var adjustedMaxData = getAdjustedWorkoutData(-5);
+      updateRemainingWorkouts(adjustedMaxData);
     }
   };
 });
