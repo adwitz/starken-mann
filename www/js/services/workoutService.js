@@ -75,17 +75,23 @@ angular.module('bench.services')
       return response;
     },
     increaseOneRepMax: function(){
-      var adjustedMaxData = getAdjustedWorkoutData(5).then(function(data){
-        updateRemainingWorkouts(adjustedMaxData);
-        console.log('successfully retreived new max data', data);
+      var adjustedMaxData = getAdjustedWorkoutData(5).then(function(adjustedMaxData){
+        updateRemainingWorkouts(adjustedMaxData.workouts);
+        Storage.setOneRepMax(adjustedMaxData.max);
+        console.log('successfully retreived new max data: ', adjustedMaxData);
       }, function(err){
         console.log('error retreiving new max data: ', err);
       });
 
     },
     decreaseOneRepMax: function(){
-      var adjustedMaxData = getAdjustedWorkoutData(-5);
-      updateRemainingWorkouts(adjustedMaxData);
+      var adjustedMaxData = getAdjustedWorkoutData(-5).then(function(adjustedMaxData){
+        updateRemainingWorkouts(adjustedMaxData.workouts);
+        Storage.setOneRepMax(adjustedMaxData.max);
+      }, function(err){
+        console.log('error retreiving new max data: ', err);
+      });
+
     }
   };
 });

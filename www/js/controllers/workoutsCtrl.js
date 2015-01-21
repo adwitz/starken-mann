@@ -1,6 +1,6 @@
 angular.module('bench.controllers')
 
-.controller('WorkoutsCtrl', function($scope, $state, $localstorage, Storage, Workouts, Requests) {
+.controller('WorkoutsCtrl', function($scope, $state, Storage, Workouts) {
 
   $scope.goToOneRepMax = function(){
     $state.go('app.oneRM');

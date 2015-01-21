@@ -8,7 +8,7 @@
       <button ng-click="goToOneRepMax()">Set your one rep max</button>
     </div>
     <ion-list ng-show="workouts">
-      <ion-item ng-repeat="workout in workouts" type="item-text-wrap" href="#/app/workouts/{{workout.id}}">
+      <ion-item ng-repeat="workout in workouts" ng-class="{'is-completed': workout.completed}" type="item-text-wrap" href="#/app/workouts/{{workout.id}}">
         Workout #{{workout.workout}}
       </ion-item>
     </ion-list>

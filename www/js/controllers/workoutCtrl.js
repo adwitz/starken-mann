@@ -32,6 +32,7 @@ angular.module('bench.controllers')
   });
 
   $scope.openWorkoutCompleteModal = function() {
+    setWorkoutComplete();
     $scope.completeModal.show();
   };
 
@@ -87,7 +88,6 @@ angular.module('bench.controllers')
     if (score.change === 0){
       closeFailureOpenComplete();
     }
-    setWorkoutComplete();
   };
 
   var setWorkoutComplete = function(){
