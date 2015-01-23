@@ -1,12 +1,12 @@
 angular.module('bench.controllers')
 
-.controller('OneRepMaxCtrl', function($scope, $state, $localstorage, $ionicModal, $interval, $timeout, OneRepMax, Workouts, Timer, Requests) {
+.controller('OneRepMaxCtrl', function($scope, $state, $ionicModal, $interval, $timeout, OneRepMax, Workouts, Timer, Requests, Storage) {
 
   var timer;
 
-
-
-  $scope.max = {};
+  $scope.max = {
+    weight: Storage.getOneRepMax()
+  };
   $scope.errorMsg = false;
   $scope.currentStepData = OneRepMax.getStep(0);
   $scope.getTimeRemaining = Timer.getTimeRemaining;

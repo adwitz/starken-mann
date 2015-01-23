@@ -28,6 +28,16 @@ angular.module('bench.services')
     Storage.setWorkouts(updatedWorkoutList);
   };
 
+  var handleNewMaxDataSuccess = function(adjustedMaxData){
+    updateRemainingWorkouts(adjustedMaxData.workouts);
+    Storage.setOneRepMax(adjustedMaxData.max);
+    console.log('successfully retreived new max data: ', adjustedMaxData);
+  };
+
+  var handleNewMaxDataError = function(err){
+    console.log('error retreiving new max data: ', err);
+  };
+
   return {
     all: function() {
       workouts = Storage.getWorkouts();
@@ -75,23 +85,11 @@ angular.module('bench.services')
       return response;
     },
     increaseOneRepMax: function(){
-      var adjustedMaxData = getAdjustedWorkoutData(5).then(function(adjustedMaxData){
-        updateRemainingWorkouts(adjustedMaxData.workouts);
-        Storage.setOneRepMax(adjustedMaxData.max);
-        console.log('successfully retreived new max data: ', adjustedMaxData);
-      }, function(err){
-        console.log('error retreiving new max data: ', err);
-      });
+      getAdjustedWorkoutData(5).then(handleNewMaxDataSuccess, handleNewMaxDataError);
 
     },
     decreaseOneRepMax: function(){
-      var adjustedMaxData = getAdjustedWorkoutData(-5).then(function(adjustedMaxData){
-        updateRemainingWorkouts(adjustedMaxData.workouts);
-        Storage.setOneRepMax(adjustedMaxData.max);
-      }, function(err){
-        console.log('error retreiving new max data: ', err);
-      });
-
+      getAdjustedWorkoutData(-5).then(handleNewMaxDataSuccess, handleNewMaxDataError);
     }
   };
 });
