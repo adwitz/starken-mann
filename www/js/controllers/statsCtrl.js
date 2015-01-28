@@ -1,5 +1,7 @@
 angular.module('bench.controllers')
 
-.controller('StatsCtrl', function($scope, Storage) {
+.controller('StatsCtrl', function($scope, Statistics) {
+
+  $scope.data = Statistics.getAllStats();
 
 });

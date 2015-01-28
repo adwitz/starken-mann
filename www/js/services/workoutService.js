@@ -31,7 +31,6 @@ angular.module('bench.services')
   var handleNewMaxDataSuccess = function(adjustedMaxData){
     updateRemainingWorkouts(adjustedMaxData.workouts);
     Storage.setOneRepMax(adjustedMaxData.max);
-    console.log('successfully retreived new max data: ', adjustedMaxData);
   };
 
   var handleNewMaxDataError = function(err){
