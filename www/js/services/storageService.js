@@ -44,6 +44,10 @@ angular.module('bench.services')
     }
   };
 
+  var setInitalOneRepMax = function(oneRepMax){
+    
+  };
+
   return {
 
     getOneRepMax: function(){
