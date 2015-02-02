@@ -31,7 +31,7 @@ angular.module('bench.services')
       type: 'lift',
       step: 1,
       content: 'Again, lift a light weight 4-5 times',
-      timer: 12,
+      timer: 120,
       confirm: false,
       getNext: function(){
         return oneRepMaxCalculation.steps[2];
@@ -40,7 +40,7 @@ angular.module('bench.services')
       type: 'lift',
       step: 2,
       content: 'Increase to a weight you can lift three to four times.  Do three to four reps.',
-      timer: 18,
+      timer: 180,
       confirm: false,
       getNext: function(){
         return oneRepMaxCalculation.steps[3];
@@ -49,7 +49,7 @@ angular.module('bench.services')
       type: 'lift',
       step: 3,
       content: 'Increase to a weight you can lift about once.  Try to do one rep.',
-      timer: 18,
+      timer: 180,
       confirm: true,
       getNext: nextMaxAttemptedStep
 
@@ -57,14 +57,14 @@ angular.module('bench.services')
       type: 'lift',
       step: 4,
       content: 'Great job! Increase the weight and try to do one rep.',
-      timer: 18,
+      timer: 180,
       confirm: true,
       getNext: nextMaxAttemptedStep
     }, {
       type: 'lift',
       step: 5,
       content: 'That may have been a bit much.  Remove some weight and try again.',
-      timer: 18,
+      timer: 180,
       confirm: true,
       getNext: nextMaxAttemptedStep
     }, {
