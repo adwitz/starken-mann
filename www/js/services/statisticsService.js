@@ -17,11 +17,12 @@ angular.module('bench.services')
     var oneRepMax = Storage.getOneRepMax();
     return oneRepMax ? oneRepMax : 0;
   };
- 
+
   return {
     getAllStats: function(){
       return {
         oneRepMax: getOneRepMax(),
+        initialOneRepMax: Storage.getInitialOneRepMax(),
         workoutsCompleted: getLastCompletedWorkout(),
         maxWeightLifted: Storage.getMaxWeightLifted()
       };

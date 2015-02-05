@@ -44,8 +44,15 @@ angular.module('bench.services')
     }
   };
 
-  var setInitalOneRepMax = function(oneRepMax){
-    
+  var getInitialOneRepMax = function(){
+    var initialOneRepMax = $localstorage.get('initialOneRepMax', 0);
+    return stringToNumberFromLocalStorage(initialOneRepMax);
+  };
+
+  var setInitialOneRepMax = function(oneRepMax){
+    if (!getInitialOneRepMax()){
+      $localstorage.set('initialOneRepMax', oneRepMax);
+    }
   };
 
   return {
@@ -56,7 +63,7 @@ angular.module('bench.services')
     },
 
     getInitialOneRepMax: function(){
-      $localstorage.get('initialOneRepMax', null);
+      return getInitialOneRepMax();
     },
 
     getLastCompletedWorkout: function(){
@@ -79,6 +86,7 @@ angular.module('bench.services')
 
     setOneRepMax: function(oneRepMax){
       $localstorage.set('oneRepMax', oneRepMax);
+      setInitialOneRepMax(oneRepMax);
       updateMaxWeightLifted(oneRepMax);
     },
 
