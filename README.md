@@ -1,3 +1,3 @@
-starken-mann
+Bench Pro
 ------------
-Increase your 1RM.  Become a starken Mann.
+Increase your 1RM.
